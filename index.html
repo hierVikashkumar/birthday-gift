@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A Birthday Surprise</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap');
+:root{--coral:#ff795d;--gold:#ffc75e;--ink:#27172f;--muted:#866f83;--cream:#fff8f2}
+*{box-sizing:border-box}body{margin:0;font-family:'DM Sans',sans-serif;background:#160d22;color:#fff;min-height:100vh}
+button,input,textarea,select{font:inherit}button{cursor:pointer;border:0}
+.shell{min-height:100vh;background:radial-gradient(ellipse at 50% 20%,#482044 0,#21112d 48%,#100a19 100%);position:relative;overflow:hidden}
+.shell:before,.shell:after{content:"";position:fixed;width:260px;height:260px;border-radius:50%;filter:blur(80px);opacity:.22;pointer-events:none}.shell:before{background:#ff568e;top:10%;left:-100px}.shell:after{background:#ffc75e;right:-120px;bottom:4%}
+.top{max-width:1100px;margin:auto;padding:22px 24px;display:flex;align-items:center;justify-content:space-between;position:relative;z-index:2}
+.brand{font-weight:700;letter-spacing:.4px}.brand span{color:var(--gold)}.step-pill{font-size:12px;color:#ffd88b;border:1px solid #79516f;border-radius:30px;padding:8px 13px}
+main{max-width:850px;margin:20px auto 70px;padding:0 20px;position:relative;z-index:1}
+.panel{background:#fffaf7;color:var(--ink);border-radius:24px;padding:30px;box-shadow:0 20px 70px #08040d66}
+.eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:2px;color:#d66c4f;font-weight:700}
+h1,h2{font-family:'Playfair Display',serif;margin:8px 0 10px}h1{font-size:clamp(30px,5vw,46px)}h2{font-size:28px}
+.sub{color:#806d7c;line-height:1.6;margin:0 0 24px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}.field{display:flex;flex-direction:column;gap:7px;margin-bottom:15px}.field label{font-size:12px;font-weight:700;color:#9a6e64}.field input,.field textarea,.field select{border:1px solid #eadbd4;background:#fff;border-radius:12px;padding:13px 14px;color:#342538;outline:none}.field input:focus,.field textarea:focus{border-color:#fa967a;box-shadow:0 0 0 3px #ffb29a30}.field textarea{min-height:110px;resize:vertical}
+.actions{display:flex;justify-content:space-between;gap:12px;margin-top:22px}.btn{padding:13px 22px;border-radius:30px;font-weight:700}.primary{background:linear-gradient(100deg,#f36c4e,#ff9b61);color:white;box-shadow:0 8px 18px #f36c4e40}.secondary{background:#f5e9e5;color:#72565e}
+.options{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.option{border:1px solid #ecdcd7;border-radius:15px;padding:16px 10px;text-align:center;background:#fff;cursor:pointer;color:#493648}.option.active{border:2px solid #ff896c;background:#fff2ec}.option .emoji{font-size:28px;display:block;margin-bottom:7px}.option b{font-size:13px}.option small{display:block;color:#977f8d;margin-top:4px}
+.reason-list{display:grid;gap:10px}.reason{display:flex;gap:10px;align-items:center}.reason input{flex:1;border:1px solid #eadbd4;border-radius:12px;padding:12px}
+.preview{display:none;text-align:center}.preview.active{display:block}.birthday-stage{min-height:75vh;padding:25px 16px 60px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;position:relative}
+.kicker{color:#ffd47d;font-size:13px;letter-spacing:2px;text-transform:uppercase}.big-title{font-family:'Playfair Display',serif;font-size:clamp(42px,9vw,78px);line-height:1.05;margin:14px 0;color:#fff;text-shadow:0 5px 30px #ff729866}.name{color:#ffc66a}.wish{max-width:560px;color:#e9d8e9;line-height:1.7}
+.photo-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:650px;width:100%;margin:28px auto}.photo-grid img{width:100%;height:300px;object-fit:cover;border-radius:18px;border:2px solid #ffc66a;box-shadow:0 12px 30px #08040d66}
+.cake{font-size:76px;filter:drop-shadow(0 0 18px #ffb34d);animation:bob 2s ease-in-out infinite}@keyframes bob{50%{transform:translateY(-10px)}}
+.letter{max-width:620px;background:#fff4dc;color:#573d4a;border-radius:12px;padding:26px;text-align:left;line-height:1.8;margin:22px auto;box-shadow:0 12px 40px #0005;font-family:'Playfair Display',serif}
+.reasons{max-width:620px;width:100%;display:grid;gap:10px;margin:20px auto}.reason-card{border:1px solid #a56c8e;background:#321d3d;border-radius:14px;padding:14px 17px;text-align:left;color:#fff}.reason-card span{color:#ffc86c;font-size:10px;letter-spacing:1px;display:block;margin-bottom:5px}
+.final-btn{display:inline-block;background:linear-gradient(100deg,#ff795d,#ffb05f);color:#fff;padding:15px 25px;border-radius:30px;font-weight:700;margin-top:18px}
+.float{position:absolute;animation:float 7s ease-in-out infinite;opacity:.8;font-size:24px;pointer-events:none}@keyframes float{0%,100%{transform:translateY(25px)}50%{transform:translateY(-35px)}}
+.hidden{display:none!important}.hint{font-size:12px;color:#9a8392;margin-top:10px}
+@media(max-width:620px){.panel{padding:22px 17px}.grid{grid-template-columns:1fr}.options{grid-template-columns:1fr}.photo-grid img{height:220px}.top{padding:18px}.birthday-stage{padding-top:10px}}
+</style></head>
+<body><div class="shell">
+<header class="top"><div class="brand">✦ Birthday<span>Magic</span></div><div class="step-pill" id="stepLabel">STEP 01 / 05</div></header>
+<main>
+<section class="panel" id="setup">
+<div id="step1">
+<div class="eyebrow">01 / Make it personal</div><h1>Who's the birthday star?</h1><p class="sub">You're about to make someone's day unforgettable.</p>
+<div class="grid">
+<div class="field"><label>Their name</label><input id="recipient" value="Jyoti" placeholder="Birthday person's name"></div>
+<div class="field"><label>Your name</label><input id="sender" value="Avinash" placeholder="Your name"></div>
+<div class="field"><label>Turning age (optional)</label><input id="age" type="number" min="1" value="23"></div>
+<div class="field"><label>Their birthday</label><input id="birthday" type="date"></div>
+</div><div class="actions"><span></span><button class="btn primary" onclick="go(2)">Let's begin →</button></div>
+</div>
+<div id="step2" class="hidden"><div class="eyebrow">02 / Pick their cake</div><h1>Pick their cake</h1><p class="sub">Joyful, light, with it on, and cut it.</p>
+<div class="options" id="cakes">
+<div class="option" onclick="choose(this,'🎂','Midnight Chocolate')"><span class="emoji">🎂</span><b>Midnight Chocolate</b><small>Rich, dark & dreamy</small></div>
+<div class="option" onclick="choose(this,'🍰','Strawberry Blush')"><span class="emoji">🍰</span><b>Strawberry Blush</b><small>Soft, sweet & rosy</small></div>
+<div class="option active" onclick="choose(this,'🧁','Vanilla Gold')"><span class="emoji">🧁</span><b>Vanilla Gold</b><small>Classic, warm & glowing</small></div>
+</div><div class="actions"><button class="btn secondary" onclick="go(1)">← Back</button><button class="btn primary" onclick="go(3)">Continue →</button></div></div>
+<div id="step3" class="hidden"><div class="eyebrow">03 / Little reasons</div><h1>Reasons you're special</h1><p class="sub">Add the little things that make this person wonderful.</p><div class="reason-list" id="reasonInputs"></div><div class="actions"><button class="btn secondary" onclick="go(2)">← Back</button><button class="btn primary" onclick="go(4)">Continue →</button></div></div>
+<div id="step4" class="hidden"><div class="eyebrow">04 / A note from the heart</div><h1>Write your birthday letter</h1><p class="sub">This is the part Jyoti will read twice — and remember forever.</p><div class="field"><label>Your message</label><textarea id="letterText">I keep thinking about how lucky I got with you. You have seen me at my worst and stayed anyway, and I do not say thank you nearly enough for that. I hope life is gentle with you.</textarea></div><div class="actions"><button class="btn secondary" onclick="go(3)">← Back</button><button class="btn primary" onclick="go(5)">Bake the magic →</button></div></div>
+<div id="step5" class="hidden"><div class="eyebrow">05 / Your photos</div><h1>Add your favourite moments</h1><p class="sub">We've added the two photos you shared. You can change them any time.</p><div class="grid"><div class="field"><label>Photo 1</label><input type="file" accept="image/*" onchange="loadPhoto(event,0)"></div><div class="field"><label>Photo 2</label><input type="file" accept="image/*" onchange="loadPhoto(event,1)"></div></div><div class="photo-grid"><img id="photo0" src="assets/couple-selfie.jpeg"><img id="photo1" src="assets/couple-formal.jpeg"></div><div class="actions"><button class="btn secondary" onclick="go(4)">← Back</button><button class="btn primary" onclick="showBirthday()">Preview the surprise ✨</button></div></div>
+</section>
+<section class="preview" id="preview">
+<div class="birthday-stage">
+<div class="float" style="left:8%;top:12%">🎈</div><div class="float" style="right:10%;top:20%;animation-delay:1s">✨</div><div class="float" style="left:14%;bottom:14%;animation-delay:2s">💖</div><div class="float" style="right:12%;bottom:12%;animation-delay:3s">🎉</div>
+<div class="kicker">make a wish...</div><div class="big-title">Happy<br>Birthday</div><div class="name" id="previewName" style="font:600 34px 'Playfair Display',serif">Jyoti</div>
+<p class="wish" id="previewAge">and just like that, you're turning 23 ✨</p>
+<div class="photo-grid"><img id="finalPhoto0" src="assets/couple-selfie.jpeg"><img id="finalPhoto1" src="assets/couple-formal.jpeg"></div>
+<div class="cake" id="cakeEmoji">🧁</div><p class="wish">Happy Birthday, <b id="cakeName">Jyoti</b>!<br>tap anywhere to continue</p>
+<button class="final-btn" onclick="document.getElementById('letterSection').scrollIntoView({behavior:'smooth'})">Open your birthday letter ↓</button>
+</div>
+<div class="birthday-stage" id="letterSection"><div class="kicker">A little note for you</div><div class="letter"><h2>Dear <span id="letterName">Jyoti</span>,</h2><div id="finalLetter"></div><p style="text-align:right">With love,<br><b id="finalSender">Avinash</b> ❤️</p></div><div class="kicker">A few reasons you're loved</div><div class="reasons" id="finalReasons"></div><div class="big-title" style="font-size:42px">HAPPY BIRTHDAY!</div><p class="wish">Made with love, just for <span id="endName"></span> ✨</p><button class="final-btn" onclick="shareLink()">Send this surprise ❤️</button><p class="hint" id="shareHint">This creates a private link when the website is hosted online.</p><button class="btn secondary" style="margin-top:12px" onclick="backToEdit()">← Edit birthday details</button></div>
+</section>
+</main></div>
+<script>
+let current=1, cakeEmoji='🧁', cakeName='Vanilla Gold';
+const defaults=['You make ordinary days feel special','You remember the little things I forget','You believed in me when I didn’t','Your laugh is my favourite sound','The world is kinder with you in it'];
+const reasonBox=document.getElementById('reasonInputs');
+defaults.forEach((v,i)=>{let d=document.createElement('div');d.className='reason';d.innerHTML=`<span style="color:#df8768;font-weight:700">${i+1}.</span><input value="${v.replaceAll('"','&quot;')}" aria-label="Reason ${i+1}">`;reasonBox.appendChild(d)});
+function go(n){current=n;for(let i=1;i<=5;i++)document.getElementById('step'+i).classList.toggle('hidden',i!==n);document.getElementById('stepLabel').textContent=`STEP 0${n} / 05`;window.scrollTo({top:0,behavior:'smooth'})}
+function choose(el,e,name){document.querySelectorAll('.option').forEach(x=>x.classList.remove('active'));el.classList.add('active');cakeEmoji=e;cakeName=name}
+function loadPhoto(ev,i){let f=ev.target.files[0];if(f){let u=URL.createObjectURL(f);document.getElementById('photo'+i).src=u;document.getElementById('finalPhoto'+i).src=u}}
+function showBirthday(){let r=document.getElementById('recipient').value.trim()||'Birthday Star',s=document.getElementById('sender').value.trim()||'Someone special',a=document.getElementById('age').value;document.getElementById('previewName').textContent=r;document.getElementById('cakeName').textContent=r;document.getElementById('letterName').textContent=r;document.getElementById('endName').textContent=r;document.getElementById('finalSender').textContent=s;document.getElementById('previewAge').textContent=a?`and just like that, you're turning ${a} ✨`:'Wishing you a year full of magic ✨';document.getElementById('cakeEmoji').textContent=cakeEmoji;document.getElementById('finalLetter').textContent=document.getElementById('letterText').value;let vals=[...reasonBox.querySelectorAll('input')].map(x=>x.value).filter(Boolean);document.getElementById('finalReasons').innerHTML=vals.map((v,i)=>`<div class="reason-card"><span>REASON NO. ${i+1}</span>${escapeHtml(v)} ✨</div>`).join('');document.getElementById('setup').classList.add('hidden');document.getElementById('preview').classList.add('active');document.getElementById('stepLabel').textContent='YOUR SURPRISE IS READY';window.scrollTo(0,0)}
+function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function backToEdit(){document.getElementById('preview').classList.remove('active');document.getElementById('setup').classList.remove('hidden');go(1)}
+function shareLink(){let hint=document.getElementById('shareHint');if(location.protocol==='file:'){hint.textContent='To create a shareable link, upload this folder to a hosting service (for example Netlify). The website is ready to host.';return}let data={recipient:document.getElementById('recipient').value,sender:document.getElementById('sender').value,age:document.getElementById('age').value,letter:document.getElementById('letterText').value};let url=location.origin+location.pathname+'#'+btoa(unescape(encodeURIComponent(JSON.stringify(data))));navigator.clipboard.writeText(url).then(()=>hint.textContent='Birthday link copied! Send it to your loved one ❤️').catch(()=>hint.textContent=url)}
+</script></body></html>
